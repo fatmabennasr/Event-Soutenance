@@ -1,0 +1,101 @@
+<c-card class="my-4">
+  <c-card-body>
+    <!-- Soutenance List -->
+    <c-row>
+      <c-col>
+        <h4>Soutenance List</h4>
+        <br />
+        <c-row>
+          <c-col *ngFor="let soutenance of soutenances" [xl]="12" [lg]="12" [md]="12" [sm]="12">
+            <!-- Add left margin to the entire card -->
+            <c-card class="mb-3 ms-3" [ngStyle]="{'max-width.px': 800}"> <!-- Added ms-3 for left margin -->
+              <c-row class="g-0">
+                <!-- Image Column -->
+                <c-col [md]="4" class="overflow-hidden position-relative">
+                  <img
+                    cCardImg="start"
+                    src="../assets/images/soutenance.jpg"
+                    alt="Soutenance Image"
+                    class="d-none d-md-inline object-fit-cover"
+                    style="min-height: 100%; object-position: left"
+                  />
+                  <img
+                    cCardImg="top"
+                    src="./assets/images/soutenance.jpg"
+                    alt="Soutenance Image"
+                    class="d-md-none d-sm-inline"
+                  />
+                </c-col>
+                <!-- Content Column -->
+                <c-col [md]="8" class="p-3"> <!-- Added padding here -->
+                  <c-card-body>
+                    <h5 cCardTitle>Soutenance ID: {{ soutenance.idSoutenance }}</h5>
+                    <p cCardText>
+                      <strong>Enseignant ID:</strong> {{ soutenance.idEnseignant }}<br />
+                      <strong>Etudiant ID:</strong> {{ soutenance.idEtudiant }}<br />
+                      <strong>Date:</strong> {{ soutenance.dateSoutenance | date: 'mediumDate' }}<br />
+                      <strong>Lieu:</strong> {{ soutenance.lieu }}<br />
+                      <strong>Salle:</strong> {{ soutenance.salle }}<br />
+                      <strong>Time:</strong> {{ soutenance.time }}<br />
+                      <strong>Bloc:</strong> {{ soutenance.bloc }}
+                    </p>
+                    <p cCardText>
+                      <button cButton color="secondary" (click)="editSoutenance(soutenance)" class="me-2">
+                        Update
+                      </button>
+                      <button cButton color="danger" (click)="deleteSoutenance(soutenance.idSoutenance!)">
+                        Delete
+                      </button>
+                    </p>
+                  </c-card-body>
+                </c-col>
+              </c-row>
+            </c-card>
+          </c-col>
+        </c-row>
+        <div *ngIf="soutenances.length === 0" class="text-center">
+          <p>No soutenances found.</p>
+        </div>
+      </c-col>
+    </c-row>
+
+    <!-- Soutenance Form -->
+    <c-row class="mt-4">
+      <c-col>
+        <h4>{{ isEditing ? 'Edit Soutenance' : 'Create New Soutenance' }}</h4>
+        <form [formGroup]="soutenanceForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label cLabel for="idEnseignant">Enseignant ID</label>
+            <input cFormControl id="idEnseignant" formControlName="idEnseignant" type="number" required />
+          </div>
+          <div class="mb-3">
+            <label cLabel for="idEtudiant">Etudiant ID</label>
+            <input cFormControl id="idEtudiant" formControlName="idEtudiant" type="number" required />
+          </div>
+          <div class="mb-3">
+            <label cLabel for="dateSoutenance">Date</label>
+            <input cFormControl id="dateSoutenance" formControlName="dateSoutenance" type="date" required />
+          </div>
+          <div class="mb-3">
+            <label cLabel for="lieu">Lieu</label>
+            <input cFormControl id="lieu" formControlName="lieu" required />
+          </div>
+          <div class="mb-3">
+            <label cLabel for="salle">Salle</label>
+            <input cFormControl id="salle" formControlName="salle" required />
+          </div>
+          <div class="mb-3">
+            <label cLabel for="time">Time</label>
+            <input cFormControl id="time" formControlName="time" type="time" required />
+          </div>
+          <div class="mb-3">
+            <label cLabel for="bloc">Bloc</label>
+            <input cFormControl id="bloc" formControlName="bloc" required />
+          </div>
+          <button cButton color="secondary" type="submit">{{ isEditing ? 'Update Soutenance' : 'Create Soutenance' }}</button>
+          <button *ngIf="isEditing" cButton color="secondary" type="button" (click)="cancelEdit()" class="ms-2">Cancel</button>
+        </form>
+      </c-col>
+    </c-row>
+  </c-card-body>
+</c-card>

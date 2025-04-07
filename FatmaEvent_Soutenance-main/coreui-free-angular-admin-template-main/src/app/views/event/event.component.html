@@ -1,0 +1,64 @@
+<c-card class="my-4">
+  <c-card-body>
+    <!-- Event List -->
+    <c-row>
+      <c-col>
+        <h4>Event List</h4>
+        <c-row>
+          <c-col *ngFor="let event of events" [xl]="4" [lg]="6" [md]="6" [sm]="12">
+            <c-card class="mb-3">
+              <img cCardImg="top" [src]="'./assets/images/espritevent.jpg'" alt="Event Image">
+              <c-card-body>
+                <h5 cCardTitle>{{ event.titre }}</h5>
+                <p cCardText>
+                  <strong>Location:</strong> {{ event.lieu }}<br>
+                  <strong>Date & Time:</strong> {{ event.dateTime | date: 'medium' }}<br>
+                  <strong>Topic:</strong> {{ event.topic }}<br>
+                  <strong>Status:</strong> {{ event.statut }}
+                </p>
+                <p cCardText>
+                  <button cButton color="secondary" (click)="editEvent(event)" class="me-2">Update</button>
+                  <button cButton color="danger" (click)="deleteEvent(event.id!)">Delete</button>
+                </p>
+              </c-card-body>
+            </c-card>
+          </c-col>
+        </c-row>
+        <div *ngIf="events.length === 0" class="text-center">
+          <p>No events found.</p>
+        </div>
+      </c-col>
+    </c-row>
+
+    <!-- Event Form -->
+    <c-row class="mt-4">
+      <c-col>
+        <h4>{{ isEditing ? 'Edit Event' : 'Create New Event' }}</h4>
+        <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label cLabel for="titre">Title</label>
+            <input cFormControl id="titre" formControlName="titre" required />
+          </div>
+          <div class="mb-3">
+            <label cLabel for="lieu">Location</label>
+            <input cFormControl id="lieu" formControlName="lieu" required />
+          </div>
+          <div class="mb-3">
+            <label cLabel for="dateTime">Date & Time</label>
+            <input cFormControl id="dateTime" formControlName="dateTime" type="datetime-local" required />
+          </div>
+          <div class="mb-3">
+            <label cLabel for="topic">Topic</label>
+            <input cFormControl id="topic" formControlName="topic" required />
+          </div>
+          <div class="mb-3">
+            <label cLabel for="statut">Status</label>
+            <input cFormControl id="statut" formControlName="statut" required />
+          </div>
+          <button cButton color="secondary" type="submit">{{ isEditing ? 'Update Event' : 'Create Event' }}</button>
+          <button *ngIf="isEditing" cButton color="secondary" type="button" (click)="cancelEdit()" class="ms-2">Cancel</button>
+        </form>
+      </c-col>
+    </c-row>
+  </c-card-body>
+</c-card>
